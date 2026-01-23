@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepak Reddy Agasthi Rajendran | Aspiring Business Analyst</title>
+    <meta name="description"
+        content="Portfolio of Deepak Reddy, a Data-Driven Business Analyst and MSBA Candidate at Carnegie Mellon University.">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --bg-secondary: #000000;
+            /* Apple often keeps main bg black */
+            --bg-tertiary: #161617;
+            /* Common Apple section/card bg */
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --accent-color: #2997ff;
+            --card-bg: #1c1c1e;
+            /* Specific Apple dark mode card color */
+            --card-border: rgba(255, 255, 255, 0);
+            /* Apple cards often adhere to bg colors, border is subtle or non-existent in modern layouts */
+            --nav-bg: rgba(0, 0, 0, 0.8);
+            --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            line-height: 1.47059;
+            letter-spacing: -0.022em;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        h1 {
+            font-size: 80px;
+            /* Much larger */
+            line-height: 1.05;
+            letter-spacing: -0.015em;
+            font-weight: 700;
+            margin-bottom: 0.2em;
+            /* Pure white or subtle gradient, Apple uses both. Solid white on black is very punchy. */
+            color: #f5f5f7;
+        }
+
+        h2.section-title {
+            font-size: 56px;
+            line-height: 1.07143;
+            letter-spacing: -0.005em;
+            font-weight: 600;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 19px;
+            /* Body copy size 19px or 21px */
+            line-height: 1.4211;
+            font-weight: 400;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+            /* More whitespace */
+        }
+
+        /* Navbar - 44px height standard */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--nav-bg);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            height: 48px;
+            /* keeping 48 for visual balance with desktop */
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0);
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: 980px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--text-primary);
+            opacity: 1;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            color: #d6d6d6;
+            transition: opacity 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            opacity: 1;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hamburger span {
+            width: 20px;
+            height: 1px;
+            background-color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 50px;
+            background: #000;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-frame {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, #2997ff, #a1a1a6);
+            /* Gradient border effect */
+            box-shadow: 0 0 40px rgba(41, 151, 255, 0.3);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #000;
+            /* Inner border */
+            display: block;
+        }
+
+        .subtitle {
+            color: var(--accent-color);
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .role {
+            font-size: 28px;
+            /* larger subhead */
+            font-weight: 500;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .bio {
+            font-size: 21px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 600px;
+            font-weight: 400;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            padding: 12px 26px;
+            background-color: #0071e3;
+            /* Classic Apple Blue Button */
+            color: #fff;
+            border-radius: 980px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0077ed;
+        }
+
+        .btn-secondary {
+            padding: 12px 26px;
+            background-color: transparent;
+            color: #0071e3;
+            border-radius: 980px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid rgba(0, 113, 227, 0.5);
+            /* Subtle border */
+            cursor: pointer;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(0, 113, 227, 0.1);
+        }
+
+        /* About Section */
+        .about-content {
+            background: var(--bg-tertiary);
+            /* Section bg like iPhone specs sections */
+            border-radius: 30px;
+            padding: 80px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .stat-item {
+            background: #000;
+            /* Contrast against the dark grey section */
+            padding: 30px;
+            border-radius: 20px;
+            text-align: left;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* Experience Section */
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            padding-left: 40px;
+            margin-bottom: 60px;
+            border-left: 2px solid #333;
+            position: relative;
+        }
+
+        .timeline-content h3 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .timeline-content h4 {
+            color: var(--text-secondary);
+            font-size: 21px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        /* Bento Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            /* Responsive minimums */
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: none;
+            padding: 50px;
+            border-radius: 30px;
+            /* Larger radius 30px standard */
+            height: 100%;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        .card-header h3 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .degree,
+        .project-type {
+            color: #86868b;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .card-body p {
+            font-size: 19px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .tags {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tags span {
+            font-size: 14px;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 980px;
+            font-weight: 500;
+        }
+
+        /* Skills specific */
+        .skills-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .skills-category {
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 30px;
+        }
+
+        .skills-category h3 {
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .cert-list li {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .cert-list li:last-child {
+            border-bottom: none;
+        }
+
+        .cert-list i {
+            font-size: 32px;
+            color: var(--text-primary);
+        }
+
+        .cert-list div strong {
+            display: block;
+            font-size: 19px;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .cert-list div span {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Brand Logos Custom Styles */
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border-radius: 6px;
+        }
+
+        /* IBM Logo Styles */
+        .ibm-logo {
+            font-family: "Menlo", "Courier New", monospace;
+            font-weight: 900;
+            font-size: 16px;
+            letter-spacing: -1px;
+            color: #fff;
+            gap: 1px;
+            /* Optional: Blue background if preferred, but usually white stripes on transparent or reversed */
+            background-color: transparent;
+        }
+
+        .ibm-logo span {
+            display: inline-block;
+            background: repeating-linear-gradient(to bottom,
+                    #fff 0,
+                    #fff 2px,
+                    transparent 2px,
+                    transparent 4px);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #fff;
+        }
+
+        /* Microsoft Logo Styles */
+        .microsoft-logo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 24px;
+            height: 24px;
+            gap: 2px;
+        }
+
+        .microsoft-logo span {
+            width: 100%;
+            height: 100%;
+        }
+
+        .microsoft-logo span:nth-child(1) {
+            background-color: #f25022;
+        }
+
+        .microsoft-logo span:nth-child(2) {
+            background-color: #7fba00;
+        }
+
+        .microsoft-logo span:nth-child(3) {
+            background-color: #00a4ef;
+        }
+
+        .microsoft-logo span:nth-child(4) {
+            background-color: #ffb900;
+        }
+
+        /* Michigan Logo Styles */
+        .michigan-logo {
+            font-family: serif;
+            font-weight: 900;
+            font-size: 20px;
+            color: #FFCB05;
+            /* Maize */
+            background-color: #00274C;
+            /* Blue */
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            line-height: 32px;
+            text-align: center;
+        }
+
+        /* Contact */
+        .contact-section {
+            text-align: center;
+            padding-bottom: 100px;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        /* Utility Helpers */
+        .company-name {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .experience-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .experience-list li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            font-size: 17px;
+            line-height: 1.5;
+        }
+
+        .experience-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--text-primary);
+            /* Bullet color */
+        }
+
+        .date-range {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .contact-text {
+            font-size: 21px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid #333;
+            padding: 40px 0;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+            background: #000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 44px;
+                /* Slightly smaller for mobile safety */
+            }
+
+            h2.section-title {
+                font-size: 36px;
+                margin-bottom: 40px;
+            }
+
+            .section {
+                padding: 60px 0;
+                /* Tighter mobile spacing */
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                padding: 30px;
+                /* Tighter padding for mobile cards */
+                gap: 40px;
+            }
+
+            .card,
+            .skills-category {
+                padding: 30px;
+                /* Consistent mobile padding */
+            }
+
+            .skills-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+                /* Logic for hamburger menu would normally toggle this, 
+                                 but for pure CSS/Link separation we hide it. 
+                                 A mobile menu implementation needs JS/CSS overlay */
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                gap: 16px;
+                padding: 0 20px;
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .navbar {
+                background: rgba(0, 0, 0, 0.9);
+                height: 60px;
+                /* Taller touch targets */
+            }
+        }
+
+        /* Animations - Apple Style "Reveal" */
+        /* Animations - Apple Style "Deep Focus" */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px) scale(0.96);
+            filter: blur(24px);
+            transition:
+                opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform, filter;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="logo">Deepak Reddy Agasthi Rajendran</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#contact" class="btn-primary">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header id="hero" class="hero">
+        <div class="container hero-content fade-in-up">
+            <div class="profile-frame">
+                <img src="profile.jpg" alt="Deepak Reddy" class="profile-img">
+            </div>
+            <h1>Deepak Reddy.</h1>
+            <p class="role">Aspiring Business Analyst</p>
+            <p class="bio">MSBA Candidate at Carnegie Mellon. Transforming numbers into action and ideas into impact.
+            </p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn-primary">Get in Touch</a>
+                <a href="#experience" class="btn-secondary">View Work</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="section">
+        <!-- ... existing about content ... -->
+        <div class="container">
+            <h2 class="section-title fade-in-up">About Me</h2>
+            <div class="about-content fade-in-up">
+                <div class="about-text">
+                    <p>I’m a business-minded tech graduate with a focus on data-driven
+                        decision-making. After earning my degree in Computer Science and Engineering, I joined ABR
+                        Constructions, where I led its rental division operations.</p>
+                    <p>Currently, I’m pursuing my Masters in Business Analytics from Carnegie Mellon University, aiming
+                        to combine my technical foundation with advanced analytical training.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">1</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" style="display: flex; align-items: center; height: 58px;">
+                            <img src="cmu-logo.png" alt="CMU"
+                                style="height: 44px; width: auto; object-fit: contain; border-radius: 6px;">
+                        </div>
+                        <span class="stat-label">MSBA Candidate</span>
+                    </div>
+                    <div class="stat-item">
+                        <!-- IBM Logo Image -->
+                        <div class="stat-number" style="display: flex; align-items: center; height: 58px;">
+                            <img src="ibm-logo-v2.png" alt="IBM"
+                                style="height: 34px; width: auto; object-fit: contain; filter: invert(1);">
+                        </div>
+                        <span class="stat-label">Certified BA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in-up">Experience</h2>
+            <div class="timeline fade-in-up">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Rental Division Lead</h3>
+                        <p class="company-name">ABR Constructions</p>
+                        <h4>Jun 2024 - Jun 2025</h4>
+                        <ul class="experience-list">
+                            <li>Led the rental division at ABR Constructions, driving revenue through strategic rental
+                                of heavy vehicles and equipment.</li>
+                            <li>Enhanced asset utilization by implementing a tracking system, reducing downtime and
+                                reallocating underused equipment.</li>
+                            <li>Developed data-driven monthly performance reports, enabling informed decision-making and
+                                operational improvements.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in-up">Education</h2>
+            <div class="cards-grid">
+                <div class="card fade-in-up">
+                    <div class="card-header">
+                        <span class="degree">MS, Business Analytics</span>
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 8px;">
+                            <img src="cmu-logo.png" alt="CMU Logo"
+                                style="width: 48px; height: 48px; border-radius: 8px; object-fit: contain;">
+                            <h3 style="margin-bottom: 0;">Carnegie Mellon University</h3>
+                        </div>
+                        <p class="date-range">2025 - 2026</p>
+                    </div>
+                    <div class="card-body">
+                        <p>Deep analytical skills, business knowledge and creative problem-solving expertise.</p>
+                        <div class="tags">
+                            <span>Probability & Statistics</span>
+                            <span>Modern Data Management</span>
+                            <span>Data Visualization</span>
+                            <span>Machine Learning</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-header">
+                        <span class="degree">BTech, Computer Science</span>
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 8px;">
+                            <img src="vit-logo.png" alt="VIT Logo"
+                                style="width: 48px; height: 48px; border-radius: 8px; object-fit: contain; background: #fff;">
+                            <h3 style="margin-bottom: 0;">Vellore Institute of Technology</h3>
+                        </div>
+                        <p class="date-range">2020 - 2024</p>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Activities: Youth Red Cross Volunteer</strong></p>
+                        <p>Organized various community awareness events on important social issues like environmental
+                            sustainability, cancer awareness, mental health, HIV/AIDS prevention, domestic violence, and
+                            public health. Engaged in interactive discussions, and awareness campaigns for community and
+                            social responsibility.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in-up">Projects</h2>
+            <div class="cards-grid">
+                <div class="card fade-in-up">
+                    <span class="project-type">Capstone Project</span>
+                    <h3>Image Compression using CNN Transformer</h3>
+                    <p>Enhanced an image compression framework integrating CNN and Swin
+                        Transformer architecture, achieving a compression ratio of 30.25%, a PSNR (35.62 dB) and MS-SSIM
+                        (0.968) on Kodak dataset.</p>
+                </div>
+                <div class="card fade-in-up">
+                    <span class="project-type">IoT & Analytics</span>
+                    <h3>Weather Reporting & Analysis System</h3>
+                    <p>Developed an IoT-driven smart agriculture system using sensors and data
+                        analytics to optimize irrigation, resource usage, and crop recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in-up">Skills</h2>
+            <div class="skills-wrapper">
+                <!-- Skills Categories -->
+                <div class="skills-grid-inner fade-in-up"
+                    style="grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
+                    <div class="skills-category" style="padding: 30px;">
+                        <h3>Programming</h3>
+                        <div class="tags">
+                            <span>C</span>
+                            <span>C++</span>
+                            <span>Python</span>
+                            <span>Java</span>
+                            <span>R</span>
+                        </div>
+                    </div>
+                    <div class="skills-category" style="padding: 30px;">
+                        <h3>Data Analysis</h3>
+                        <div class="tags">
+                            <span>SQL</span>
+                            <span>MongoDB</span>
+                            <span>Excel</span>
+                            <span>Tableau</span>
+                            <span>Google Looker Studio</span>
+                            <span>IBM Cognos Analytics</span>
+                        </div>
+                    </div>
+                    <div class="skills-category" style="padding: 30px;">
+                        <h3>Management & Tools</h3>
+                        <div class="tags">
+                            <span>Jira</span>
+                            <span>Confluence</span>
+                            <span>Lucid Maps</span>
+                        </div>
+                    </div>
+                    <div class="skills-category" style="padding: 30px;">
+                        <h3>Non-Technical</h3>
+                        <div class="tags">
+                            <span>Leadership</span>
+                            <span>Business Development</span>
+                            <span>Customer Relationship</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in-up">Certifications</h2>
+            <div class="skills-wrapper">
+                <!-- Reusing wrapper class for consistency if needed, or can be removed if not affecting grid -->
+                <div class="skills-category fade-in-up" style="grid-column: 1 / -1; width: 100%;">
+                    <ul class="cert-list">
+                        <li>
+                            <!-- Custom CSS IBM Logo -->
+                            <div class="brand-logo ibm-logo" aria-label="IBM Logo">
+                                <span>I</span><span>B</span><span>M</span>
+                            </div>
+                            <div>
+                                <strong>IBM Business Analyst</strong>
+                                <span>Credential ID LOD9815NNU9L</span>
+                            </div>
+                        </li>
+                        <li>
+                            <!-- Custom CSS Microsoft Logo -->
+                            <div class="brand-logo microsoft-logo" aria-label="Microsoft Logo">
+                                <span></span><span></span><span></span><span></span>
+                            </div>
+                            <div>
+                                <strong>Security, Compliance, and Identity Fundamentals</strong>
+                                <span>Microsoft · Credential ID 76ES-uSKv</span>
+                            </div>
+                        </li>
+                        <li>
+                            <!-- University of Michigan Logo -->
+                            <div class="brand-logo" aria-label="University of Michigan Logo"
+                                style="width: 36px; height: 36px;">
+                                <img src="umich-logo.png" alt="University of Michigan"
+                                    style="width: 100%; height: 100%; object-fit: contain; border-radius: 4px;">
+                            </div>
+                            <div>
+                                <strong>Statistics with Python</strong>
+                                <span>University of Michigan · Credential ID S8NEW519CNG6</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+        <div class="container fade-in-up">
+            <h2 class="section-title">Let's Connect!</h2>
+            <p class="contact-text">I am actively seeking opportunities in Analytics. Also, I'm always open to
+                discussing business strategy, analytics, or building the future through data-powered decisions.</p>
+            <div class="contact-links">
+                <a href="mailto:ardeepakreddy@gmail.com" class="btn-primary">Email Me</a>
+                <a href="https://www.linkedin.com/in/dpkrdy" target="_blank" class="btn-secondary">LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Deepak Reddy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -100px 0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
