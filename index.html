@@ -1063,6 +1063,33 @@
             .card:hover {
                 transform: translateY(-4px);
             }
+
+            /* Mobile Background Orbs Optimization */
+            .orb-1 {
+                width: 300px;
+                height: 300px;
+                top: -80px;
+                left: -40px;
+            }
+
+            .orb-2 {
+                width: 200px;
+                height: 200px;
+                right: -40px;
+                top: 40%;
+            }
+
+            .orb-3 {
+                width: 180px;
+                height: 180px;
+                bottom: -40px;
+                left: 10%;
+            }
+
+            .bg-animation {
+                opacity: 0.8;
+                /* Slightly reduce opacity on mobile for better text readability */
+            }
         }
 
         /* Animations */
@@ -1490,7 +1517,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Deepak Reddy. Crafted with passion.</p>
+            <p>&copy; 2025 Deepak Reddy.</p>
         </div>
     </footer>
 
@@ -1523,6 +1550,22 @@
             window.addEventListener('mousemove', function (event) {
                 mouse.x = event.x;
                 mouse.y = event.y;
+            });
+
+            // Touch Interaction for Mobile
+            window.addEventListener('touchmove', function (event) {
+                mouse.x = event.touches[0].clientX;
+                mouse.y = event.touches[0].clientY;
+            }, { passive: true });
+
+            window.addEventListener('touchstart', function (event) {
+                mouse.x = event.touches[0].clientX;
+                mouse.y = event.touches[0].clientY;
+            }, { passive: true });
+
+            window.addEventListener('touchend', function () {
+                mouse.x = null;
+                mouse.y = null;
             });
 
             // Particle Class
