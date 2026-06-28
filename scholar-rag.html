@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Scholar RAG: What I Learned Wiring GPT-4o to 500 Research Papers — Deepak Reddy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0ede6;
+            --text: #1c1814;
+            --text-2: #6b6458;
+            --text-3: #a09890;
+            --accent: #0d7a70;
+            --accent-mid: #0d9488;
+            --accent-light: #d0f0eb;
+            --border: #ddd9d0;
+            --font: 'Outfit', -apple-system, sans-serif;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.7; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100; height: 52px;
+            display: flex; align-items: center; padding: 0 40px;
+            background: rgba(240,237,230,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-back {
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--text-2);
+            font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back svg { width: 14px; height: 14px; }
+        .nav-title { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; }
+
+        .article-wrap { max-width: 680px; margin: 0 auto; padding: 120px 40px 100px; }
+
+        .article-cat { font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 20px; }
+
+        h1 { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 20px; }
+
+        .article-lede { font-size: 18px; line-height: 1.65; color: var(--text-2); margin-bottom: 28px; }
+
+        .article-byline {
+            display: flex; align-items: center; gap: 12px;
+            padding: 20px 0; border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border); margin-bottom: 52px;
+        }
+        .byline-name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+        .byline-meta { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+        .article-body p { font-size: 17px; line-height: 1.78; color: var(--text); margin-bottom: 28px; }
+
+        .article-body h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text); margin: 52px 0 20px; line-height: 1.3; }
+
+        .article-body .pull-quote { border-left: 3px solid var(--accent-mid); padding: 4px 0 4px 24px; margin: 40px 0; }
+        .article-body .pull-quote p { font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.45; color: var(--text); margin-bottom: 0; font-style: italic; }
+
+        .code-block {
+            background: #1c1814; color: #d4e8e6;
+            padding: 20px 24px; margin: 28px 0;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 13px; line-height: 1.7; overflow-x: auto;
+            border-radius: 2px;
+        }
+        .code-block .comment { color: #6b8a88; }
+        .code-block .keyword { color: #0d9488; }
+        .code-block .string { color: #a3d9a5; }
+
+        .callout {
+            border: 1px solid var(--border); background: #faf8f4;
+            padding: 20px 24px; margin: 36px 0;
+            font-size: 14.5px; line-height: 1.65; color: var(--text-2);
+        }
+        .callout strong { color: var(--text); font-weight: 600; }
+
+        .stack-row {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--border);
+            border: 1px solid var(--border); margin: 32px 0;
+        }
+        .stack-cell {
+            background: #faf8f4; padding: 16px 18px;
+        }
+        .stack-cell .role { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+        .stack-cell .tool { font-size: 14px; font-weight: 600; color: var(--text); }
+
+        .article-footer-bar {
+            margin-top: 72px; padding-top: 32px; border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+        }
+        .footer-author { font-size: 13px; color: var(--text-2); }
+        .footer-author a { color: var(--accent); text-decoration: none; }
+        .footer-author a:hover { text-decoration: underline; }
+        .btn-back { font-size: 12.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 10px 20px; transition: background 0.2s, color 0.2s; }
+        .btn-back:hover { background: var(--accent); color: #fff; }
+
+        @media (max-width: 600px) {
+            .article-wrap { padding: 100px 24px 80px; }
+            nav { padding: 0 24px; }
+            .nav-title { display: none; }
+            .stack-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" onclick="if(document.referrer){history.back();return false;}" class="nav-back">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2L4 7l5 5"/></svg>
+        Deepak Reddy
+    </a>
+    <span class="nav-title">AI / NLP</span>
+</nav>
+
+<div class="article-wrap">
+
+    <div class="article-cat">AI / NLP</div>
+
+    <h1>Building Scholar RAG: What I Learned Wiring GPT-4o to 500 Research Papers</h1>
+
+    <p class="article-lede">
+        Practical lessons on chunking, retrieval accuracy, and why ChromaDB worked better than I expected — built entirely from scratch with LangChain, scholarly, and a lot of trial and error.
+    </p>
+
+    <div class="article-byline">
+        <div>
+            <div class="byline-name">Deepak Reddy</div>
+            <div class="byline-meta">MSBA, Carnegie Mellon &nbsp;·&nbsp; February 2026 &nbsp;·&nbsp; 7 min read</div>
+        </div>
+    </div>
+
+    <div class="article-body">
+
+        <p>The problem I kept running into during my MSBA was the same one every researcher hits. You search Google Scholar, get 200 results, download ten PDFs, read three, lose track of which paper said what, and end up with a notes document that's already outdated by the time you use it. GPT-4 is great at synthesizing things, but it hasn't read the paper you found twenty minutes ago, and it will confidently hallucinate citations if you let it.</p>
+
+        <p>Scholar RAG is my attempt to fix that workflow. It searches Google Scholar automatically, downloads open-access PDFs, indexes them into a local vector database, and lets you ask questions that get answered strictly from the paper text. No hallucination, no made-up citations. Just retrieval from what's actually in the documents.</p>
+
+        <p>Here's what I learned building it.</p>
+
+        <h2>The stack, and why each piece</h2>
+
+        <div class="stack-row">
+            <div class="stack-cell"><div class="role">Interface</div><div class="tool">Streamlit</div></div>
+            <div class="stack-cell"><div class="role">Scholar scraping</div><div class="tool">scholarly</div></div>
+            <div class="stack-cell"><div class="role">Orchestration</div><div class="tool">LangChain</div></div>
+            <div class="stack-cell"><div class="role">Vector DB</div><div class="tool">ChromaDB</div></div>
+            <div class="stack-cell"><div class="role">Embeddings</div><div class="tool">text-embedding-3-small</div></div>
+            <div class="stack-cell"><div class="role">LLM</div><div class="tool">gpt-4o-mini</div></div>
+        </div>
+
+        <p>The LLM choice was deliberate. I used <code>gpt-4o-mini</code>, not <code>gpt-4o</code>. In a RAG setup, the model's job is synthesis and compression, not reasoning from first principles. The context is already retrieved; the model just needs to read it and answer concisely. Mini handles that well at a fraction of the cost, and the latency is noticeably better for an interactive tool.</p>
+
+        <p>For embeddings, I went with <code>text-embedding-3-small</code>. It's fast, cheap, and accurate enough for academic text retrieval. I considered running a local embedding model to avoid any API calls during indexing, but the tradeoff wasn't worth it for a research tool where you're not embedding in real-time production volume.</p>
+
+        <h2>The scraping layer is where most projects fail quietly</h2>
+
+        <p>The <code>scholarly</code> library wraps Google Scholar and returns paper metadata: title, authors, abstract, year, and two URL fields that look similar but aren't: <code>pub_url</code> and <code>eprint_url</code>. The difference matters a lot. <code>pub_url</code> points to the publisher's page, which is usually paywalled. <code>eprint_url</code> is the direct PDF link (the open-access version on arXiv, a university server, or a preprint repository). If you grab the wrong field, you'll get 403s or land on HTML pages that parse as garbage.</p>
+
+        <p>Google Scholar also rate-limits aggressively. Too many requests in quick succession and you hit a CAPTCHA wall that blocks the session entirely. The fix is simple but easy to skip: randomized delays between requests.</p>
+
+        <div class="code-block"><span class="comment"># scholar_search.py — being a good citizen</span>
+<span class="keyword">import</span> time, random
+
+<span class="comment"># after each paper fetch:</span>
+time.sleep(random.uniform(<span class="string">1</span>, <span class="string">3</span>))</div>
+
+        <p>One to three seconds, random. It sounds slow, but it's the difference between getting 10 papers and getting blocked after 4. For a research tool you're running locally, the tradeoff is obvious.</p>
+
+        <h2>PDF parsing is messier than the tutorials admit</h2>
+
+        <p>PyPDFLoader works well on clean, text-based PDFs. It falls apart on scanned documents, two-column journal layouts, and papers with heavy figures. The text extraction from a two-column Nature paper comes out scrambled: left column followed by right column mid-sentence, with figure captions interspersed.</p>
+
+        <p>I didn't solve this cleanly. For Scholar RAG's use case (open-access papers, which tend to be arXiv preprints), the formatting is clean enough that PyPDFLoader handles it. If I were expanding this to journal PDFs or older scanned papers, I'd swap in a layout-aware parser like <code>pdfplumber</code> or look at document AI options. But for the actual scope of this project, PyPDF was fine and far simpler.</p>
+
+        <h2>The chunk size decision matters more than people admit</h2>
+
+        <p>After loading, the text gets split into chunks before being embedded. The parameters I settled on:</p>
+
+        <div class="code-block"><span class="comment"># pdf_processor.py</span>
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=<span class="string">1000</span>,
+    chunk_overlap=<span class="string">200</span>,
+    length_function=len,
+)</div>
+
+        <p>1000 characters with 200 of overlap. This is roughly 150–200 words per chunk, which fits comfortably inside the embedding model's context and gives enough semantic density to retrieve meaningfully. The overlap ensures that sentences split across a chunk boundary still appear in at least one chunk intact.</p>
+
+        <p>I tried 500-character chunks early on. Retrieval got more precise (smaller, tighter units), but the context passed to the LLM became too fragmented to generate a useful answer. The model would get three chunks about methodology but none of them had enough surrounding text to make sense of the notation. 1000 characters hits a better balance between retrieval precision and synthesis quality.</p>
+
+        <div class="pull-quote">
+            <p>ChromaDB is a local vector database that requires no server, no Docker, no cloud account. It just works, and it persists across sessions automatically.</p>
+        </div>
+
+        <h2>Why ChromaDB worked better than I expected</h2>
+
+        <p>I went into this expecting to hit limitations quickly. ChromaDB is often positioned as a prototyping tool, and I'd read enough comparisons to Pinecone and Weaviate to expect the production-grade solutions to be obviously superior. For a local research assistant, that framing is wrong.</p>
+
+        <p>ChromaDB stores everything in a local directory (<code>./chroma_db</code>) and persists across sessions automatically. No spinning up a server, no API keys, no network dependency when you're running a query. You open the app, it loads the existing database, and the papers you indexed yesterday are still there.</p>
+
+        <div class="code-block"><span class="comment"># rag_engine.py — initialization</span>
+self.embeddings = OpenAIEmbeddings(model=<span class="string">"text-embedding-3-small"</span>)
+self.vector_store = Chroma(
+    persist_directory=<span class="string">"./chroma_db"</span>,
+    embedding_function=self.embeddings
+)</div>
+
+        <p>Retrieval accuracy was the real surprise. Searching for "limitations of the proposed method" across a corpus of mixed-topic papers returned the right sections 80–85% of the time in my testing. Not perfect, but usable. The cases where it failed were usually questions about figures or quantitative results buried in tables, content that doesn't embed well in text form.</p>
+
+        <h2>The retrieval and prompt design</h2>
+
+        <p>The retriever pulls the top 5 most similar chunks (<code>k=5</code>) for any question. I tried k=3 and k=10. Three chunks often missed relevant context when the answer was spread across multiple sections. Ten chunks overloaded the prompt: the LLM would get confused or start hedging across contradictory statements from different papers.</p>
+
+        <p>The system prompt I ended up with is deliberately constrained:</p>
+
+        <div class="code-block">system_prompt = (
+    <span class="string">"You are an assistant for answering questions based on academic papers. "</span>
+    <span class="string">"Use the following pieces of retrieved context to answer the question. "</span>
+    <span class="string">"If you don't know the answer, say that you don't know. "</span>
+    <span class="string">"Use three sentences maximum and keep the answer concise."</span>
+)</div>
+
+        <p>"Three sentences maximum" sounds harsh, but it's the right call for a research tool. You're not looking for an essay. You're looking for the specific claim, methodology detail, or finding from a specific paper. Longer answers drift toward paraphrase and lose the citation-grounded quality that makes RAG useful in the first place. Short answers force the model to actually identify the relevant piece rather than averaging across everything retrieved.</p>
+
+        <h2>What I'd change</h2>
+
+        <p>The biggest limitation is PDF access. Open-access papers on arXiv are easy. Anything behind a paywall requires the user to download PDFs manually and drop them into the tool, which breaks the automated workflow. A version that supports local PDF uploads natively (without needing the Scholar search step) would be more useful day-to-day.</p>
+
+        <p>I'd also add source citations to answers. The current setup returns the answer text but not which paper or page it came from. LangChain's retrieval chain returns the source documents alongside the answer; I just didn't surface them in the UI. That's a two-line fix and should have been in from the start.</p>
+
+        <p>Hybrid search is the other thing I'd prioritize. Pure vector similarity retrieval struggles with exact matches: author names, specific model names, year references. Combining semantic search with a keyword (BM25) pass would catch those cases and improve precision without much added complexity. ChromaDB now supports hybrid search, so it's not even a tool-switch decision anymore.</p>
+
+        <p>The code is on <a href="https://github.com/dpk-rdy/ScholarRAG" target="_blank" style="color:var(--accent);">GitHub</a> if you want to run it or pick it apart.</p>
+
+
+    </div>
+
+    <div class="article-footer-bar">
+        <p class="footer-author">
+            Deepak Reddy is an MSBA from Carnegie Mellon's Tepper School.
+            Connect on <a href="https://www.linkedin.com/in/dpkrdy" target="_blank">LinkedIn</a>
+            or view the <a href="https://github.com/dpk-rdy/ScholarRAG" target="_blank">GitHub repo</a>.
+        </p>
+        <a href="index.html#articles" class="btn-back">← Back to Portfolio</a>
+    </div>
+
+</div>
+
+</body>
+</html>

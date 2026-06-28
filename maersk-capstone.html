@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inside the Maersk Capstone: How We Segmented a Global Depot Network — Deepak Reddy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0ede6;
+            --text: #1c1814;
+            --text-2: #6b6458;
+            --text-3: #a09890;
+            --accent: #0d7a70;
+            --accent-mid: #0d9488;
+            --accent-light: #d0f0eb;
+            --border: #ddd9d0;
+            --font: 'Outfit', -apple-system, sans-serif;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.7; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100; height: 52px;
+            display: flex; align-items: center; padding: 0 40px;
+            background: rgba(240,237,230,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-back {
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--text-2);
+            font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back svg { width: 14px; height: 14px; }
+        .nav-title { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; }
+
+        .article-wrap { max-width: 680px; margin: 0 auto; padding: 120px 40px 100px; }
+
+        .article-cat { font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 20px; }
+
+        h1 { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 20px; }
+
+        .article-lede { font-size: 18px; line-height: 1.65; color: var(--text-2); margin-bottom: 28px; }
+
+        .article-byline {
+            display: flex; align-items: center; gap: 12px;
+            padding: 20px 0; border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border); margin-bottom: 52px;
+        }
+        .byline-name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+        .byline-meta { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+        .article-body p { font-size: 17px; line-height: 1.78; color: var(--text); margin-bottom: 28px; }
+
+        .article-body h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text); margin: 52px 0 20px; line-height: 1.3; }
+
+        .article-body .pull-quote { border-left: 3px solid var(--accent-mid); padding: 4px 0 4px 24px; margin: 40px 0; }
+        .article-body .pull-quote p { font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.45; color: var(--text); margin-bottom: 0; font-style: italic; }
+
+        .data-card {
+            background: #fff; border: 1px solid var(--border);
+            padding: 24px 28px; margin: 36px 0;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+        }
+        .data-stat { }
+        .data-stat .num { font-family: var(--serif); font-size: 28px; font-weight: 700; color: var(--accent); line-height: 1.1; }
+        .data-stat .label { font-size: 11.5px; color: var(--text-3); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+        .seg-table { width: 100%; border-collapse: collapse; margin: 32px 0; font-size: 13.5px; }
+        .seg-table th { text-align: left; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); padding: 8px 12px; border-bottom: 2px solid var(--border); }
+        .seg-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+        .seg-table tr:last-child td { border-bottom: none; }
+        .seg-table .seg-name { font-weight: 600; color: var(--accent); white-space: nowrap; }
+        .seg-table .highlight { background: rgba(13,148,136,0.06); }
+
+        .callout {
+            border: 1px solid var(--border); background: #faf8f4;
+            padding: 20px 24px; margin: 36px 0;
+            font-size: 14.5px; line-height: 1.65; color: var(--text-2);
+        }
+        .callout strong { color: var(--text); font-weight: 600; }
+
+        .article-footer-bar {
+            margin-top: 72px; padding-top: 32px; border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+        }
+        .footer-author { font-size: 13px; color: var(--text-2); }
+        .footer-author a { color: var(--accent); text-decoration: none; }
+        .footer-author a:hover { text-decoration: underline; }
+        .btn-back { font-size: 12.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 10px 20px; transition: background 0.2s, color 0.2s; }
+        .btn-back:hover { background: var(--accent); color: #fff; }
+
+        @media (max-width: 600px) {
+            .article-wrap { padding: 100px 24px 80px; }
+            nav { padding: 0 24px; }
+            .nav-title { display: none; }
+            .data-card { grid-template-columns: repeat(2, 1fr); }
+            .seg-table { font-size: 12px; }
+            .seg-table th, .seg-table td { padding: 8px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" onclick="if(document.referrer){history.back();return false;}" class="nav-back">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2L4 7l5 5"/></svg>
+        Deepak Reddy
+    </a>
+    <span class="nav-title">Project Breakdown</span>
+</nav>
+
+<div class="article-wrap">
+
+    <div class="article-cat">Project Breakdown</div>
+
+    <h1>Inside the Maersk Capstone: How We Segmented a Global Depot Network</h1>
+
+    <p class="article-lede">
+        From raw logistics data to SHAP-driven insights and executive recommendations: a behind-the-scenes look at the methodology, what surprised us, and what we'd do differently.
+    </p>
+
+    <div class="article-byline">
+        <div>
+            <div class="byline-name">Deepak Reddy</div>
+            <div class="byline-meta">MSBA, Carnegie Mellon &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp; 8 min read</div>
+        </div>
+    </div>
+
+    <div class="article-body">
+
+        <p>The finding that stopped us early was this: a depot earning $4 million a year had a higher gross profit margin than one earning $42 million. Not by a little. By 16 percentage points. The small depot was running 68.3% GP margin. The large one sat at 52%.</p>
+
+        <p>That's the kind of result that makes you double-check your joins.</p>
+
+        <p>We checked. It was real. And it turned out to be the most important thing in the whole project — the clue that scale was the wrong frame entirely. What drove margin was what a depot was doing and where it sat in the surrounding logistics network.</p>
+
+        <h2>The problem we were handed</h2>
+
+        <p>Maersk operates inland container depots across 28 countries. The dataset we received covered 50 of them, all fully-owned or majority joint venture sites, generating $395 million in combined 2024 revenue at a 56% gross profit margin. That headline number is decent. What it hides is a 20 percentage point spread between the worst-performing segment and the best.</p>
+
+        <div class="data-card">
+            <div class="data-stat"><div class="num">50</div><div class="label">Depots, 28 countries</div></div>
+            <div class="data-stat"><div class="num">$395M</div><div class="label">2024 network revenue</div></div>
+            <div class="data-stat"><div class="num">20pp</div><div class="label">Margin spread, low to high</div></div>
+        </div>
+
+        <p>At network scale, closing four percentage points of that gap across the 25 below-median depots adds roughly $14 million to annual gross profit. That's not a rounding error. So the question Maersk put to us was specific: what structural factors drive the margin gap, and where should they invest to close it?</p>
+
+        <p>Our team (myself, Ethan Wong, Mehdi Abbas, and Ziheng Wu) built a three-stage pipeline to answer it. Stage one segments the depots. Stage two identifies what drives margin within and across those segments. Stage three quantifies what it would return to move a depot from one group to another.</p>
+
+        <h2>The data quality problem nobody warned us about</h2>
+
+        <p>Before any modeling, we ran into something that would have quietly destroyed the analysis if we hadn't caught it.</p>
+
+        <p>Reefer handling (refrigerated container services) was not in the products field. It was buried in a separate field called <code>Breakdown_of_DAPS</code>, using a semicolon-hash separator that standard parsing fails on silently. Had we derived reefer penetration from the products column the way you'd naturally try first, we'd have gotten zero reefer presence across all 50 depots. Every clustering result, every SHAP value, every investment recommendation built on that input would have been wrong.</p>
+
+        <p>We found it because the zero result was implausible enough that we went looking. That's a lesson I carry: when a feature looks suspiciously clean or suspiciously absent, assume a parsing problem before assuming it's true.</p>
+
+        <h2>Five segments, not the ones you'd expect</h2>
+
+        <p>K-Means on 14 standardised features (revenue, GP margin, site area, TEU capacity, service flags, connectivity) produced five clusters at k=5. Both the silhouette coefficient and the Davies-Bouldin index peaked there independently, and the elbow in the inertia curve broke sharply between k=4 and k=5. We validated the solution with Ward linkage hierarchical clustering: 78% of depots received identical labels from both methods, above the 70% threshold for calling a solution structurally stable.</p>
+
+        <table class="seg-table">
+            <thead>
+                <tr>
+                    <th>Segment</th>
+                    <th>Name</th>
+                    <th>Depots</th>
+                    <th>Avg Revenue</th>
+                    <th>GP Margin</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="seg-name">A</td><td>Volume Leaders</td><td>3</td><td>$42.2M</td><td>52.0%</td></tr>
+                <tr><td class="seg-name">B</td><td>Diversified Mid-Hubs</td><td>6</td><td>$7.1M</td><td>48.3%</td></tr>
+                <tr><td class="seg-name">C</td><td>Core Storage &amp; EMR</td><td>19</td><td>$7.0M</td><td>50.6%</td></tr>
+                <tr><td class="seg-name">D</td><td>Lean Specialists</td><td>15</td><td>$4.5M</td><td>55.5%</td></tr>
+                <tr class="highlight"><td class="seg-name">E</td><td>High-Margin Niche</td><td>7</td><td>$4.0M</td><td>68.3%</td></tr>
+            </tbody>
+        </table>
+
+        <p>Segment E is the one that reframes everything. Seven depots, lowest average revenue in the network, highest margin, 13 points above the next closest group. Every one of them is rail-connected. Forty-three percent have bonded yards. Seventy-one percent offer reefer. The formula isn't about size. It's about connectivity and service premium.</p>
+
+        <p>Segment B is the counterintuitive result going the other direction. Six depots with the broadest service mix in the network (100% stuffing penetration, 83% bonded yards) sitting at 48.3% margin, the lowest of any segment. The reason is physical. Segment B averages 2,997 TEU capacity. Segment A averages 13,667. You can't run a high-throughput operation on an undersized site, and the cost structure doesn't forgive it regardless of how many service flags you check.</p>
+
+        <h2>What SHAP told us, and what it didn't</h2>
+
+        <p>We ran Random Forest on GP margin with SHAP decomposition to rank the features driving variance. The global result was stark: site area carried 34.5% of the SHAP importance, TEU capacity 33.5%. Together they explain 68% of margin variation across the network. Infrastructure decisions made years ago (how big a site, how much container capacity) are the dominant force. Service additions work at the margins of that story, not at its center.</p>
+
+        <div class="pull-quote">
+            <p>68% of margin variance traces back to physical infrastructure. Most of the gap was written in decisions made years ago.</p>
+        </div>
+
+        <p>The model had an honest limitation. Training R² was 0.699. Five-fold cross-validated R² was -0.690. Negative. On 49 training observations with 11 features, the model overfit dramatically, which is expected and well-documented in small-sample settings. We reported it plainly rather than burying it. The SHAP values are still valid as directional signals (they reflect real structural associations in the data, not noise), but they shouldn't be read as precise numerical forecasts. That distinction matters when you're handing results to an executive team.</p>
+
+        <p>The per-segment SHAP is where things got useful. We ran separate Random Forest models within each segment's depot population and extracted SHAP rankings independently. Four divergences from the global ranking changed investment priorities in concrete ways.</p>
+
+        <p>For Segment D (the 15 lean specialists), Has_EMR ranked second at 24% SHAP share, compared to fifth globally. EMR is the structural anchor of the lean margin model, not a commodity baseline. Protecting it before adding anything else is the right priority sequence for those depots.</p>
+
+        <p>For Segment C (19 depots, the largest group), Has_Reefer ranked fourth at 15.5% versus sixth globally. Twelve of those 19 depots don't have reefer. Adding it costs $200–400K per site, well below any infrastructure expansion. That's the immediate near-term lever before anything heavier.</p>
+
+        <p>For Segment E, Is_Bonded ranked third at 16.1% SHAP share, compared to tenth globally at 0.2%. The 80x jump in importance from global to per-segment is the quantitative case for bonded yard certification as a margin driver. It's not visible in the aggregate at all.</p>
+
+        <h2>Ten migration pathways, two that actually work both ways</h2>
+
+        <p>Stage three ran OLS regression of three-year average revenue on product count within each source segment, producing per-product revenue uplift coefficients for ten upward migration pathways. The coefficients matter. So do the R² values.</p>
+
+        <p>For Segment D, the R² was 0.00 across all pathways. Zero. Product breadth doesn't predict revenue for lean specialists at all. That's a finding, not a failure. The migration mechanism for Segment D isn't adding services generally. It's one specific gap: Full Container Storage is present in 100% of Segment C depots and 7% of Segment D depots. One depot out of fifteen. Close that gap first, at roughly $500K per site, and the pathway opens.</p>
+
+        <p>Of the ten pathways, only two simultaneously increase both revenue and GP margin: C-to-A (+1.4 percentage points, 6x revenue) and B-to-A (+3.7 points, 5.9x revenue). Every other pathway trades margin for volume. If Maersk is optimizing for both, those two pathways are the medium-term anchor. Bremerhaven (currently Segment B, $9.8M revenue, 68% 2024 margin) is the most natural first candidate for the B-to-A pathway.</p>
+
+        <div class="callout">
+            <strong>The concentration risk finding</strong> didn't come from a model. It came from the appendix. Three depots (Callao at $57.3M, Bangkok at $25.8M, San Antonio at $25.5M) generated 27.5% of 2024 network revenue. A 20% underperformance across those three moves the network P&L by roughly $13 million. Understanding which other depots have the structural potential to become network-level contributors is risk management, not just opportunity analysis.
+        </div>
+
+        <h2>What I'd do differently</h2>
+
+        <p>The biggest gap in the analysis is customer data. We don't know whether Segment E's 68.3% margin comes from the rail and bonded yard mix or from long-term contracts with premium customers who happened to be at rail-connected sites. That question changes the entire replication thesis. If it's structural, the Segment E recipe can be exported. If it's contractual, Maersk needs customer-level data before investing in bonded yard certification at other sites.</p>
+
+        <p>I'd also push for panel regression on the monthly revenue data next time. We had 36 months of revenue and 24 months of GP. A model that predicts margin at t+6 from service additions at t would give the investment case real causal grounding instead of the cross-sectional associations we were working with.</p>
+
+        <p>The segmentation itself held up well. Two independent clustering methods, 78% agreement, five groups that make operational sense to the people who run them. That's probably the most durable output of the whole project. The SHAP rankings are directional. The migration coefficients are approximate. But the segment identities (Volume Leaders, Diversified Mid-Hubs, Core Storage, Lean Specialists, High-Margin Niche) give Maersk a common vocabulary for a network that previously didn't have one. Sometimes that's the most useful thing a model produces.</p>
+
+    </div>
+
+    <div class="article-footer-bar">
+        <p class="footer-author">
+            Deepak Reddy is an MSBA from Carnegie Mellon's Tepper School.
+            Connect on <a href="https://www.linkedin.com/in/dpkrdy" target="_blank">LinkedIn</a>
+            or view the <a href="https://github.com/dpk-rdy/MaerskDepotAnalysis" target="_blank">GitHub repo</a>.
+        </p>
+        <a href="index.html#articles" class="btn-back">← Back to Portfolio</a>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Should Do the Grunt Work. The Analysis Is Still Yours. — Deepak Reddy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0ede6;
+            --text: #1c1814;
+            --text-2: #6b6458;
+            --text-3: #a09890;
+            --accent: #0d7a70;
+            --accent-mid: #0d9488;
+            --accent-light: #d0f0eb;
+            --border: #ddd9d0;
+            --font: 'Outfit', -apple-system, sans-serif;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.7; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100; height: 52px;
+            display: flex; align-items: center; padding: 0 40px;
+            background: rgba(240,237,230,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-back {
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--text-2);
+            font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back svg { width: 14px; height: 14px; }
+        .nav-title { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; }
+
+        .article-wrap { max-width: 680px; margin: 0 auto; padding: 120px 40px 100px; }
+
+        .article-cat { font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 20px; }
+
+        h1 { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 20px; }
+
+        .article-lede { font-size: 18px; line-height: 1.65; color: var(--text-2); margin-bottom: 28px; }
+
+        .article-byline {
+            display: flex; align-items: center; gap: 12px;
+            padding: 20px 0; border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border); margin-bottom: 52px;
+        }
+        .byline-name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+        .byline-meta { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+        .article-body p { font-size: 17px; line-height: 1.78; color: var(--text); margin-bottom: 28px; }
+
+        .article-body h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text); margin: 52px 0 20px; line-height: 1.3; }
+
+        .article-body .pull-quote { border-left: 3px solid var(--accent-mid); padding: 4px 0 4px 24px; margin: 40px 0; }
+        .article-body .pull-quote p { font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.45; color: var(--text); margin-bottom: 0; font-style: italic; }
+
+        .stat-row {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--border);
+            border: 1px solid var(--border); margin: 36px 0;
+        }
+        .stat-cell { background: #faf8f4; padding: 20px 20px; }
+        .stat-cell .num { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--accent); line-height: 1.1; }
+        .stat-cell .label { font-size: 11.5px; color: var(--text-3); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.4; }
+
+        .callout {
+            border: 1px solid var(--border); background: #faf8f4;
+            padding: 20px 24px; margin: 36px 0;
+            font-size: 14.5px; line-height: 1.65; color: var(--text-2);
+        }
+        .callout strong { color: var(--text); font-weight: 600; }
+
+        .article-footer-bar {
+            margin-top: 72px; padding-top: 32px; border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+        }
+        .footer-author { font-size: 13px; color: var(--text-2); }
+        .footer-author a { color: var(--accent); text-decoration: none; }
+        .footer-author a:hover { text-decoration: underline; }
+        .btn-back { font-size: 12.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 10px 20px; transition: background 0.2s, color 0.2s; }
+        .btn-back:hover { background: var(--accent); color: #fff; }
+
+        @media (max-width: 600px) {
+            .article-wrap { padding: 100px 24px 80px; }
+            nav { padding: 0 24px; }
+            .nav-title { display: none; }
+            .stat-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" onclick="if(document.referrer){history.back();return false;}" class="nav-back">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2L4 7l5 5"/></svg>
+        Deepak Reddy
+    </a>
+    <span class="nav-title">Analytics</span>
+</nav>
+
+<div class="article-wrap">
+
+    <div class="article-cat">Analytics</div>
+
+    <h1>AI Should Do the Grunt Work. The Analysis Is Still Yours.</h1>
+
+    <p class="article-lede">
+        The case for using AI as a tool that speeds up the analyst — not a replacement for the judgment that makes analysis worth anything.
+    </p>
+
+    <div class="article-byline">
+        <div>
+            <div class="byline-name">Deepak Reddy</div>
+            <div class="byline-meta">MSBA, Carnegie Mellon &nbsp;·&nbsp; June 2026 &nbsp;·&nbsp; 6 min read</div>
+        </div>
+    </div>
+
+    <div class="article-body">
+
+        <p>A few months back, a classmate showed me an AI-generated churn analysis she was planning to present. The model had segmented customers, identified drivers, and written up a clean three-paragraph summary with a recommended action. It looked like something you'd spend a week on. She'd done it in forty minutes.</p>
+
+        <p>There was one problem. The "top churn driver" the model flagged was a feature the product team had deprecated six months earlier. It no longer existed in the product. The model had no way to know that, and nothing in its output suggested it didn't know.</p>
+
+        <p>That's the more immediate AI problem. Not the sci-fi scenario where AI takes over analytical work entirely, but AI that produces outputs that look correct, read confidently, and are wrong in ways that are easy to miss if you're not paying attention.</p>
+
+        <h2>The confidence problem is real and it's been measured</h2>
+
+        <p>CMU researchers published findings in 2025 showing that AI models are 34% more likely to use confident language when generating incorrect information than when stating accurate facts. That's a structural property of how these systems work, not a quirk. They're trained to produce fluent, authoritative text. Hedging and uncertainty don't score well in training feedback. So the output that's about to lead you off a cliff sounds exactly like the output that's going to serve you well.</p>
+
+        <p>The same research tested Gemini on a task and found it predicted it would get around 14 out of 20 questions right. It got fewer than one correct. After the fact, it still estimated it had answered 14.40 correctly. No recalibration. The model had no awareness of how wrong it had been.</p>
+
+        <div class="stat-row">
+            <div class="stat-cell"><div class="num">47%</div><div class="label">of enterprise AI users made a major business decision from hallucinated content (Deloitte, 2025)</div></div>
+            <div class="stat-cell"><div class="num">95%</div><div class="label">of AI deployments showed zero measurable P&L impact (MIT Project NANDA, July 2025)</div></div>
+            <div class="stat-cell"><div class="num">$67B</div><div class="label">estimated global cost of AI hallucinations in business contexts, 2024</div></div>
+        </div>
+
+        <p>These numbers aren't from AI skeptics. They're from researchers and consultancies that are generally bullish on AI adoption. Trust without verification is expensive, and the evidence is piling up.</p>
+
+        <h2>The context gap is harder to fix than hallucinations</h2>
+
+        <p>Hallucinations get the press, but I think the context problem is more relevant for analysts day to day. AI doesn't know that your company calculates churn differently from the industry standard. It doesn't know that the revenue spike in March was a one-time accounting reclassification, not organic growth. It doesn't know that the metric called "active users" in your data warehouse means something different from what it meant before the rebrand. It doesn't know which VP is going to ask the hard questions in the Wednesday review, or what they've already tried and rejected.</p>
+
+        <p>All of that is institutional knowledge. It lives in people's heads, in old Slack threads, in tribal memory. An analyst who's been on the team for two years brings it automatically. An AI model brings none of it. It won't tell you it's missing, either. It will fill the gap with whatever pattern from its training data fits closest and present it with the same confidence it presents everything else.</p>
+
+        <div class="pull-quote">
+            <p>A model that doesn't know what it doesn't know is dangerous precisely when it's being used by someone who also doesn't know what they don't know.</p>
+        </div>
+
+        <p>This is why the failure mode isn't usually "AI produces obviously wrong output." It's "AI produces plausible output that a junior analyst accepts without the domain knowledge to catch the error." The Chicago Sun-Times ran an AI-generated reading list in May 2025 that recommended books that don't exist. An experienced editor would have caught it. The person who ran the AI output through didn't know enough about the subject to notice. The same dynamic plays out in business analysis constantly, just with less public visibility.</p>
+
+        <h2>Where AI actually belongs in the workflow</h2>
+
+        <p>None of this means AI has no place in analytical work. It has one, just not where most people are putting it: "generate the analysis and review it lightly before presenting."</p>
+
+        <p>The tasks where AI actually saves time are the ones where speed matters and error is easy to catch. Writing SQL for routine data pulls. Generating first-draft Python for a transformation you've done ten times. Cleaning column names. Reformatting outputs. Writing boilerplate documentation. Summarizing transcripts or survey responses where you're going to read the output anyway. These are high-volume, low-stakes tasks where an analyst's time is being wasted on repetition, and AI handles them well.</p>
+
+        <p>The further you move from that zone — toward interpretation, toward recommendation, toward anything that touches business context — the more the analyst's judgment has to be in the driver's seat. AI can generate five possible explanations for why a metric dropped. Deciding which one is right, and knowing which ones are implausible given things that happened last quarter, is not something the model can do. That gap won't be patched in the next model version. It's structural: pattern matching on text is not the same as understanding how a specific business works.</p>
+
+        <h2>The framing I actually use</h2>
+
+        <p>I think of AI as a fast, tireless intern who has read an enormous amount but has been on the team for zero days. They can draft things quickly, they're good at repetitive tasks, and they'll work at 2am without complaining. But you wouldn't let them present to the client without reviewing what they wrote. You wouldn't accept their interpretation of a trend anomaly without checking it against what you know about the business. You'd use their speed and correct their blind spots.</p>
+
+        <p>McKinsey's 2024 survey found that 78% of companies plan to augment their analytics teams with AI rather than replace analysts. That number reflects where the people running these decisions have landed after seeing what actually happens when you try to hand the analysis over. The results have not been good enough to trust without oversight.</p>
+
+        <p>The right question for an analyst using AI isn't "can I use AI to do this?" It's "which parts of this can AI handle faster than me, and which parts require me to actually think?" The second category is larger than the AI tooling vendors would like you to believe, and smaller than the AI skeptics suggest. Finding that line, and being honest about where you are on it, is the skill that matters.</p>
+
+        <h2>We're not there yet. That's fine.</h2>
+
+        <p>The current state of AI in analytical work is useful and limited, at the same time. The tools are good enough to accelerate real work. They're not good enough to replace the judgment that makes analysis reliable. Treating them as one when they're the other is where teams are getting burned.</p>
+
+        <p>Being clear about that distinction isn't pessimism about AI. It's just accuracy about where we are — and accuracy is what analysts are supposed to be good at.</p>
+
+    </div>
+
+    <div class="article-footer-bar">
+        <p class="footer-author">
+            Deepak Reddy is an MSBA from Carnegie Mellon's Tepper School.
+            Connect on <a href="https://www.linkedin.com/in/dpkrdy" target="_blank">LinkedIn</a>.
+        </p>
+        <a href="index.html#articles" class="btn-back">← Back to Portfolio</a>
+    </div>
+
+</div>
+
+</body>
+</html>

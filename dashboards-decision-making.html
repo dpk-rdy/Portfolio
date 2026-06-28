@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Most Dashboards Don't Actually Help People Make Decisions — Deepak Reddy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0ede6;
+            --text: #1c1814;
+            --text-2: #6b6458;
+            --text-3: #a09890;
+            --accent: #0d7a70;
+            --accent-mid: #0d9488;
+            --border: #ddd9d0;
+            --font: 'Outfit', -apple-system, sans-serif;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.7; }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100; height: 52px;
+            display: flex; align-items: center; padding: 0 40px;
+            background: rgba(240,237,230,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-back {
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--text-2);
+            font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back svg { width: 14px; height: 14px; }
+        .nav-title {
+            margin-left: auto; font-size: 12px; font-weight: 500;
+            color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase;
+        }
+
+        /* ARTICLE LAYOUT */
+        .article-wrap {
+            max-width: 680px; margin: 0 auto;
+            padding: 120px 40px 100px;
+        }
+
+        /* META */
+        .article-cat {
+            font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em;
+            text-transform: uppercase; color: var(--accent-mid);
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-family: var(--serif);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700; line-height: 1.15;
+            color: var(--text); margin-bottom: 20px;
+        }
+        .article-lede {
+            font-size: 18px; line-height: 1.65; color: var(--text-2);
+            margin-bottom: 28px; font-weight: 400;
+        }
+        .article-byline {
+            display: flex; align-items: center; gap: 12px;
+            padding: 20px 0; border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border); margin-bottom: 52px;
+        }
+        .byline-name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+        .byline-meta { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+        .byline-dot { color: var(--border); }
+
+        /* BODY TEXT */
+        .article-body p {
+            font-size: 17px; line-height: 1.78;
+            color: var(--text); margin-bottom: 28px;
+        }
+        .article-body p.small { margin-bottom: 16px; }
+
+        .article-body h2 {
+            font-family: var(--serif); font-size: 24px; font-weight: 700;
+            color: var(--text); margin: 52px 0 20px; line-height: 1.3;
+        }
+
+        .article-body .pull-quote {
+            border-left: 3px solid var(--accent-mid);
+            padding: 4px 0 4px 24px; margin: 40px 0;
+        }
+        .article-body .pull-quote p {
+            font-family: var(--serif); font-size: 22px; font-weight: 600;
+            line-height: 1.45; color: var(--text); margin-bottom: 0; font-style: italic;
+        }
+
+        /* FOOTER */
+        .article-footer-bar {
+            margin-top: 72px; padding-top: 32px;
+            border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 16px;
+        }
+        .footer-author { font-size: 13px; color: var(--text-2); }
+        .footer-author a { color: var(--accent); text-decoration: none; }
+        .footer-author a:hover { text-decoration: underline; }
+        .btn-back {
+            font-size: 12.5px; font-weight: 600; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--accent);
+            text-decoration: none; border: 1px solid var(--accent);
+            padding: 10px 20px; transition: background 0.2s, color 0.2s;
+        }
+        .btn-back:hover { background: var(--accent); color: #fff; }
+
+        @media (max-width: 600px) {
+            .article-wrap { padding: 100px 24px 80px; }
+            nav { padding: 0 24px; }
+            .nav-title { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" onclick="if(document.referrer){history.back();return false;}" class="nav-back">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M9 2L4 7l5 5"/>
+        </svg>
+        Deepak Reddy
+    </a>
+    <span class="nav-title">Analytics</span>
+</nav>
+
+<div class="article-wrap">
+
+    <div class="article-cat">Analytics</div>
+
+    <h1>Why Most Dashboards Don't Actually Help People Make Decisions</h1>
+
+    <p class="article-lede">
+        The gap between data visualization and real decision support is wider than most teams realize. Here's what I've seen close it.
+    </p>
+
+    <div class="article-byline">
+        <div>
+            <div class="byline-name">Deepak Reddy</div>
+            <div class="byline-meta">MSBA, Carnegie Mellon &nbsp;·&nbsp; June 2026 &nbsp;·&nbsp; 5 min read</div>
+        </div>
+    </div>
+
+    <div class="article-body">
+
+        <p>The dashboard looked great. Twelve panels, clean color coding, six months of trend data visible at once. The product team had spent three weeks building it. Two months later, nobody was using it.</p>
+
+        <p>I've seen this more than I'd like to admit. And the more time I spend working in analytics, the more I think the problem isn't the data, the technology, or even the design. It's that most dashboards were built to answer the wrong question.</p>
+
+        <p>A dashboard that shows revenue by region answers "what happened." A dashboard that helps you decide whether to shift sales headcount to the Midwest answers something entirely different. Most organizations build the first kind and expect it to deliver the second.</p>
+
+        <div class="pull-quote">
+            <p>People go back to spreadsheets because spreadsheets let them think. Most dashboards don't.</p>
+        </div>
+
+        <p>Luzmo's 2025 State of Dashboards survey found that 72% of users regularly abandon dashboards for spreadsheets. That figure makes a lot of sense when you think about what a spreadsheet does that a dashboard doesn't: it lets you manipulate numbers, add your own context, model scenarios, and think through implications without waiting for a developer to add a filter. Spreadsheets are thinking tools. Most dashboards are display tools.</p>
+
+        <h2>The design problem is in the requirements, not the charts</h2>
+
+        <p>You can trace most of this back to how dashboard projects get scoped. A stakeholder asks for "visibility" into some business process. The analytics team pulls the relevant tables, picks some charts, and delivers a view of the data. What nobody asks at any point in that process: what decision does this dashboard need to support, and what would have to be true for that decision to change?</p>
+
+        <p>That's a different question than "what data do we have?" It produces a different output.</p>
+
+        <p>The gap shows up a few consistent ways. The first is metric overload. Dashboards routinely show 20 or 30 metrics when the person looking has maybe three decisions they can actually act on. Every added metric increases cognitive load and decreases the chance the viewer walks away knowing what to do. Oracle's 2024 research found that 86% of business leaders said increasing data volume made decision-making harder, not easier. More numbers is not more clarity.</p>
+
+        <p>The second is context-free data. A conversion rate of 3.2% means almost nothing without a baseline, a benchmark, or a trend line long enough to separate signal from noise. Most dashboards show the number. What the decision-maker actually needs is a sentence: this is 0.8 points below the six-month average and has been falling since the pricing change in March. That's not a chart. That's a sentence. And it's what informs a decision.</p>
+
+        <p>The third is that dashboards often answer questions people didn't ask. During my capstone at CMU, we built an analytics model for Maersk's depot network. Early on we produced a clean segmentation output with solid visuals. The operations team's first response was not appreciation. It was: what do we do with this in February when depot capacity drops? They didn't need a chart of the current state. They needed a recommendation that accounted for seasonality, cost constraints, and lead time. The dashboard answered what the network looked like. The actual decision needed something else entirely.</p>
+
+        <h2>Designing from the decision backward</h2>
+
+        <p>What I've seen work is starting with the decision, not the data. Before touching any table or chart, write out the two or three questions the stakeholder will use this to answer. Then ask what format each answer needs. Sometimes it's a number. Sometimes it's a threshold with a red/green flag. Sometimes it's a sentence that says do this or don't do this yet. The visualization comes last.</p>
+
+        <p>The other thing that helps is treating a dashboard as a communication artifact. It's not a data repository. It's a message. Good messages have a point, a specific reader, and an answer to the question that reader actually has. Most dashboards aren't written for anyone in particular, which is why they end up used by no one in particular.</p>
+
+        <p>I've also found it useful to ask: what would have to change in this data before the recommended action changes? If the answer is "I'm not sure," the dashboard isn't finished. If the answer is obvious, you can surface it directly instead of making the viewer figure it out.</p>
+
+        <h2>Where this leaves us</h2>
+
+        <p>None of this is an argument against dashboards. Some decisions genuinely need ongoing monitoring, and a well-designed dashboard handles that well. But the reflex to build a dashboard as the default response to any analytics request skips a step. The step is: what is someone supposed to do differently after looking at this?</p>
+
+        <p>If you can't answer that in one sentence, you don't have a dashboard problem. You have a requirements problem. And no amount of better charting fixes that.</p>
+
+    </div>
+
+    <div class="article-footer-bar">
+        <p class="footer-author">
+            Deepak Reddy is an MSBA from Carnegie Mellon's Tepper School.
+            Connect on <a href="https://www.linkedin.com/in/dpkrdy" target="_blank">LinkedIn</a>.
+        </p>
+        <a href="index.html#articles" class="btn-back">← Back to Portfolio</a>
+    </div>
+
+</div>
+
+</body>
+</html>
