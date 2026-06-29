@@ -800,64 +800,74 @@ document.addEventListener('DOMContentLoaded', () => {
     const TEAL_L = 'rgba(13,148,136,0.18)';
 
     /*
-     * Skill mindmap — nodes grouped by domain, edges show real skill relationships:
+     * Skill mindmap — 17 nodes across 5 clusters, edges show real workflow relationships:
      *
-     * Core languages (0,1,2): Python · SQL · Azure
-     * AI / ML cluster  (3–6): ML · RAG · LangChain · NLP
-     * Explainability    (7):  SHAP
-     * Data platform (8–10):  Snowflake · Databricks · ETL
-     * BI / Viz     (11–12):  Tableau · Power BI
+     * Cloud (top):         Azure · AWS · R
+     * Languages (hub):     Python · SQL
+     * AI/ML (center-left): ML · NLP · RAG · LangChain · ChromaDB · SHAP
+     * Data platform (right): Snowflake · Databricks · ETL
+     * BI / Viz (bottom):   Tableau · Power BI · Streamlit
      *
      * Edge logic:
-     *   Python → ML, LangChain, NLP, SQL, ETL          (Python powers all these)
-     *   ML     → SHAP, RAG, NLP, Databricks             (ML connects to explainability, AI, compute)
-     *   RAG    → LangChain, NLP                          (RAG pipeline built with LangChain, outputs NLP)
-     *   SQL    → Snowflake, Databricks, Tableau, Power BI (SQL is the query layer for all)
-     *   Azure  → Databricks, Snowflake, ETL              (Azure hosts the data stack)
-     *   Snowflake ↔ Databricks ↔ ETL                    (data platform triad)
-     *   ETL    → Tableau                                 (ETL feeds BI)
-     *   Tableau ↔ Power BI                              (parallel BI tools)
+     *   Azure → Python, ML, Databricks, Snowflake     (Azure hosts Python workloads + data stack)
+     *   AWS   → Python, ML, ETL                       (AWS for compute + pipelines)
+     *   R     → ML, Python                            (statistical complement)
+     *   Python → ML, NLP, RAG, SQL, LangChain, Streamlit, ETL  (Python is the universal layer)
+     *   SQL   → Snowflake, Databricks, Tableau, Power BI        (query layer for all platforms)
+     *   ML    → SHAP, NLP, Databricks                (explainability + NLP output + compute)
+     *   NLP   → RAG, LangChain                        (NLP underpins retrieval pipeline)
+     *   RAG   → LangChain, ChromaDB                   (RAG uses orchestration + vector store)
+     *   LangChain → ChromaDB                          (orchestrates vector retrieval)
+     *   Streamlit → RAG                               (Scholar RAG UI)
+     *   Snowflake/Databricks → ETL                   (warehouse outputs feed pipelines)
+     *   ETL   → Tableau, Power BI                     (transformed data feeds BI)
+     *   Tableau ↔ Power BI                            (parallel BI tools)
      */
     const nodeData = [
-        // Core
-        { fx:0.30, fy:0.18, r:8,  primary:true,  label:'Python'     }, // 0
-        { fx:0.70, fy:0.18, r:7,  primary:true,  label:'SQL'        }, // 1
-        { fx:0.28, fy:0.10, r:6,  primary:true,  label:'Azure'      }, // 2
+        // Languages — central hubs
+        { fx:0.26, fy:0.24, r:9,  primary:true,  label:'Python'     }, // 0
+        { fx:0.70, fy:0.24, r:8,  primary:true,  label:'SQL'        }, // 1
+        // Cloud
+        { fx:0.16, fy:0.09, r:7,  primary:true,  label:'Azure'      }, // 2
+        { fx:0.78, fy:0.09, r:6,  primary:false, label:'AWS'        }, // 3
+        { fx:0.48, fy:0.09, r:5,  primary:false, label:'R'          }, // 4 (stats / R sits between clouds)
         // AI / ML
-        { fx:0.50, fy:0.33, r:9,  primary:true,  label:'ML'         }, // 3
-        { fx:0.20, fy:0.44, r:6,  primary:false, label:'RAG'        }, // 4
-        { fx:0.14, fy:0.60, r:5,  primary:false, label:'LangChain'  }, // 5
-        { fx:0.30, fy:0.68, r:5,  primary:false, label:'NLP'        }, // 6
-        { fx:0.50, fy:0.50, r:5,  primary:false, label:'SHAP'       }, // 7
+        { fx:0.48, fy:0.37, r:8,  primary:true,  label:'ML'         }, // 5
+        { fx:0.18, fy:0.46, r:6,  primary:false, label:'NLP'        }, // 6
+        { fx:0.13, fy:0.61, r:6,  primary:false, label:'RAG'        }, // 7
+        { fx:0.22, fy:0.76, r:5,  primary:false, label:'LangChain'  }, // 8
+        { fx:0.10, fy:0.88, r:5,  primary:false, label:'ChromaDB'   }, // 9
+        { fx:0.60, fy:0.50, r:5,  primary:false, label:'SHAP'       }, // 10
         // Data platform
-        { fx:0.82, fy:0.42, r:6,  primary:false, label:'Snowflake'  }, // 8
-        { fx:0.78, fy:0.58, r:6,  primary:false, label:'Databricks' }, // 9
-        { fx:0.65, fy:0.68, r:5,  primary:false, label:'ETL'        }, // 10
-        // BI
-        { fx:0.24, fy:0.84, r:5,  primary:false, label:'Tableau'    }, // 11
-        { fx:0.68, fy:0.84, r:5,  primary:false, label:'Power BI'   }, // 12
-        { fx:0.72, fy:0.10, r:6,  primary:false, label:'AWS'        }, // 13
+        { fx:0.86, fy:0.40, r:6,  primary:false, label:'Snowflake'  }, // 11
+        { fx:0.84, fy:0.57, r:6,  primary:false, label:'Databricks' }, // 12
+        { fx:0.68, fy:0.67, r:5,  primary:false, label:'ETL'        }, // 13
+        // BI / Viz
+        { fx:0.36, fy:0.87, r:5,  primary:false, label:'Streamlit'  }, // 14
+        { fx:0.55, fy:0.84, r:5,  primary:false, label:'Tableau'    }, // 15
+        { fx:0.76, fy:0.84, r:5,  primary:false, label:'Power BI'   }, // 16
     ];
 
     const edges = [
-        // Python → core
-        [0,3],[0,5],[0,6],[0,1],[0,10],
+        // Cloud → stack
+        [2,0],[2,5],[2,12],[2,11],       // Azure → Python, ML, Databricks, Snowflake
+        [3,0],[3,5],[3,13],              // AWS → Python, ML, ETL
+        [4,5],[4,0],                     // R → ML, Python
+        // Python hub
+        [0,5],[0,6],[0,7],[0,1],[0,8],[0,14],[0,13],
+        // SQL hub
+        [1,11],[1,12],[1,15],[1,16],
         // ML cluster
-        [3,7],[3,4],[3,6],[3,9],
-        // RAG / NLP chain
-        [4,5],[4,6],
-        // SQL → data layer + BI
-        [1,8],[1,9],[1,11],[1,12],
-        // Azure → data platform
-        [2,8],[2,9],[2,10],
-        // AWS — cloud peer to Azure, connects to S3/ETL and ML
-        [13,2],[13,9],[13,10],[13,3],
-        // Data platform triad
-        [8,10],[9,10],
-        // ETL → BI
-        [10,11],
-        // BI sibling
-        [11,12],
+        [5,10],[5,6],[5,12],
+        // NLP / RAG / LangChain / ChromaDB chain
+        [6,7],[6,8],
+        [7,8],[7,9],
+        [8,9],
+        [14,7],                          // Streamlit → RAG (Scholar RAG project)
+        // Data platform
+        [11,13],[12,13],
+        [13,15],[13,16],
+        [15,16],                         // Tableau ↔ Power BI
     ];
 
     let nodes = [], W, H, pulse = 0;
