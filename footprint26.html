@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 2026 World Cup's Carbon Problem Is in the Geometry — Deepak Reddy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0ede6;
+            --text: #1c1814;
+            --text-2: #6b6458;
+            --text-3: #a09890;
+            --accent: #0d7a70;
+            --accent-mid: #0d9488;
+            --accent-light: #d0f0eb;
+            --border: #ddd9d0;
+            --font: 'Outfit', -apple-system, sans-serif;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.7; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100; height: 52px;
+            display: flex; align-items: center; padding: 0 40px;
+            background: rgba(240,237,230,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-back {
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--text-2);
+            font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back svg { width: 14px; height: 14px; }
+        .nav-title { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; }
+
+        .article-wrap { max-width: 680px; margin: 0 auto; padding: 120px 40px 100px; }
+
+        .article-cat { font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 20px; }
+
+        h1 { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 20px; }
+
+        .article-lede { font-size: 18px; line-height: 1.65; color: var(--text-2); margin-bottom: 28px; }
+
+        .article-byline {
+            display: flex; align-items: center; gap: 12px;
+            padding: 20px 0; border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border); margin-bottom: 52px;
+        }
+        .byline-name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+        .byline-meta { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+        .article-body p { font-size: 17px; line-height: 1.78; color: var(--text); margin-bottom: 28px; }
+
+        .article-body h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text); margin: 52px 0 20px; line-height: 1.3; }
+
+        .article-body .pull-quote { border-left: 3px solid var(--accent-mid); padding: 4px 0 4px 24px; margin: 40px 0; }
+        .article-body .pull-quote p { font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.45; color: var(--text); margin-bottom: 0; font-style: italic; }
+
+        .stat-row {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--border);
+            border: 1px solid var(--border); margin: 36px 0;
+        }
+        .stat-cell { background: #faf8f4; padding: 20px; }
+        .stat-cell .num { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--accent); line-height: 1.1; }
+        .stat-cell .label { font-size: 11.5px; color: var(--text-3); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.4; }
+
+        .method-table { width: 100%; border-collapse: collapse; margin: 32px 0; font-size: 13.5px; }
+        .method-table th { text-align: left; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); padding: 8px 12px; border-bottom: 2px solid var(--border); }
+        .method-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+        .method-table tr:last-child td { border-bottom: none; }
+        .method-table .method-name { font-weight: 600; color: var(--accent); }
+        .method-table .highlight { background: rgba(13,148,136,0.06); }
+
+        .callout {
+            border: 1px solid var(--border); background: #faf8f4;
+            padding: 20px 24px; margin: 36px 0;
+            font-size: 14.5px; line-height: 1.65; color: var(--text-2);
+        }
+        .callout strong { color: var(--text); font-weight: 600; }
+
+        .article-footer-bar {
+            margin-top: 72px; padding-top: 32px; border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+        }
+        .footer-author { font-size: 13px; color: var(--text-2); }
+        .footer-author a { color: var(--accent); text-decoration: none; }
+        .footer-author a:hover { text-decoration: underline; }
+        .btn-back { font-size: 12.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 10px 20px; transition: background 0.2s, color 0.2s; }
+        .btn-back:hover { background: var(--accent); color: #fff; }
+
+        @media (max-width: 600px) {
+            .article-wrap { padding: 100px 24px 80px; }
+            nav { padding: 0 24px; }
+            .nav-title { display: none; }
+            .stat-row { grid-template-columns: repeat(2, 1fr); }
+            .method-table { font-size: 12px; }
+            .method-table th, .method-table td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" onclick="if(document.referrer){history.back();return false;}" class="nav-back">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2L4 7l5 5"/></svg>
+        Deepak Reddy
+    </a>
+    <span class="nav-title">Climate Analytics</span>
+</nav>
+
+<div class="article-wrap">
+
+    <div class="article-cat">Climate Analytics</div>
+
+    <h1>The 2026 World Cup's Carbon Problem Is in the Geometry</h1>
+
+    <p class="article-lede">
+        A bottom-up model of fan travel finds a 3.4× gap between FIFA-style and realistic emissions accounting — and that the tournament's geography makes the underlying footprint close to unavoidable regardless of how it's counted.
+    </p>
+
+    <div class="article-byline">
+        <div>
+            <div class="byline-name">Deepak Reddy</div>
+            <div class="byline-meta">MSBA, Carnegie Mellon &nbsp;·&nbsp; June 2026 &nbsp;·&nbsp; 7 min read</div>
+        </div>
+    </div>
+
+    <div class="article-body">
+
+        <p>92.5%. That's the share of the 2026 World Cup's 120 venue city-pairs where a flight is the only realistic option. 111 of 120 combinations exceed 600 km, the distance beyond which intercity rail or coach stops being a practical substitute. The longest pair is Vancouver to Miami at 4,492 km. The shortest is Dallas to Houston at 386 km, the one hop where a car remains plausible. Every other combination requires flying, and that single geographic fact determines most of what follows.</p>
+
+        <p>The 2026 World Cup is the first hosted across three countries: the US, Canada, and Mexico. 16 cities, 104 matches. The US hosts 78 of them; Canada and Mexico split the rest. Unlike Russia 2018 or Qatar 2022, where fans could move between host cities on subsidized flights or a connected rail network at low cost, supporters in 2026 pay market rates across a continent. The format removed an infrastructure assumption that previous tournaments built in.</p>
+
+        <h2>What it costs to attend</h2>
+
+        <p>The model decomposes the non-ticket spend for a representative European fan attending six matches across all three host countries: one origin round-trip, intra-tournament flights between venues, and 18 nights of lodging. The total is roughly $7,500 before a single entry ticket.</p>
+
+        <div class="stat-row">
+            <div class="stat-cell"><div class="num">$7,500</div><div class="label">Non-ticket cost (flights + lodging, representative European fan)</div></div>
+            <div class="stat-cell"><div class="num">13,279</div><div class="label">km of intra-tournament travel for a 6-match route across all three countries</div></div>
+            <div class="stat-cell"><div class="num">$2,030</div><div class="label">Cheapest final ticket in 2026 (was $206 at Qatar 2022)</div></div>
+        </div>
+
+        <p>The ticket comparison is worth sitting with. The cheapest group-stage entry went from $11 at Qatar 2022 to approximately $100. The cheapest final ticket went from $206 to $2,030, above the most expensive Category-1 final seat at the previous tournament. A group-stage seat in Dallas averaged $1,028 on the resale market in June 2026. An England supporters' club estimated tickets alone to every match through the final at just over $7,000. The increase is structural: earlier hosts absorbed intercity travel costs that 2026 passes directly to fans.</p>
+
+        <h2>The 3.4× accounting gap</h2>
+
+        <p>In 2021, FIFA committed to halving emissions by 2030 and reaching net zero by 2040 as a signatory to the UN Sports for Climate Action Framework. The baseline for measuring against that commitment is Qatar 2022, which FIFA reported at 3.6 million tonnes of CO₂e. That figure was immediately disputed. Lancaster University's Mike Berners-Lee estimated the real total exceeded 10 million tonnes. Carbon Market Watch identified two specific accounting choices driving the gap: treating flights as one-way rather than round-trip, and counting only combustion CO₂ rather than aviation's full radiative forcing (the additional warming from contrails and other non-CO₂ effects at altitude, carrying a consensus multiplier of roughly 1.9). A Swiss regulator later ruled the "carbon-neutral" designation unsubstantiated.</p>
+
+        <p>The Footprint 26 model costs the same representative journey three ways, changing only the accounting method:</p>
+
+        <table class="method-table">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Radiative forcing</th>
+                    <th>Return legs</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="method-name">FIFA-style (optimistic)</td><td>No (CO₂ only)</td><td>No (one-way)</td><td>2.00 tCO₂e</td></tr>
+                <tr class="highlight"><td class="method-name">Realistic (bottom-up)</td><td>Yes (full RF)</td><td>Yes</td><td>6.78 tCO₂e</td></tr>
+                <tr><td class="method-name">Upper bound (all-fly)</td><td>Yes (full RF)</td><td>Yes</td><td>Higher</td></tr>
+            </tbody>
+        </table>
+
+        <p>The gap is 3.4×. Both figures describe the same physical journey. The difference comes entirely from two bookkeeping choices: one-way versus round-trip, and CO₂-only versus full radiative forcing. Neither is an aggressive assumption. Together they reproduce, from first principles, the order-of-magnitude discrepancy that critics alleged separated Qatar's reported figure from its actual footprint.</p>
+
+        <div class="pull-quote">
+            <p>A single headline carbon number is close to meaningless without its assumptions. The ratio between optimistic and realistic accounting is itself the finding.</p>
+        </div>
+
+        <h2>What the tournament total looks like</h2>
+
+        <p>Scaling per-fan results to tournament level requires knowing how many fans travel and from where, data that isn't yet complete for an in-progress event. The model uses an explicit estimate of approximately 2.5 million travelling fans, segmented by confederation of origin. On that basis, fan travel and lodging total roughly 6.9 million tonnes of CO₂e under realistic accounting.</p>
+
+        <p>That is 1.9 times Qatar 2022's entire reported footprint, from one category of emissions. It is also a lower bound: it excludes stadium construction, venue operations, and team travel, all of which are additive. FIFA's 50%-by-2030 interim target implies a tournament footprint of roughly 1.8 Mt CO₂e. The model's fan-travel-only estimate is 3.8 times that level.</p>
+
+        <p>By origin, domestic North American fans contribute the largest absolute share, by volume. Per fan, intercontinental arrivals from Africa and Asia/Oceania carry the heaviest individual footprints, roughly 4.6 tonnes each, driven almost entirely by the long-haul flight to reach the tournament. The distinction matters for where interventions land: measures targeting the largest total address the domestic segment; measures targeting per-fan intensity address long-haul arrivals.</p>
+
+        <h2>What mitigation actually works</h2>
+
+        <p>The model tests three interventions against the 6.78t realistic baseline.</p>
+
+        <p>Geographic clustering (grouping a fan's match sequence by region rather than crossing the continent between fixtures) reduces the footprint to 5.25 tonnes, a 23% cut. Attending four matches instead of six brings it to 4.82 tonnes, down 29%. Rail substitution at a generous 1,000 km threshold produces zero reduction: every hop in a representative six-match route still exceeds even that threshold, so no journey shifts to rail.</p>
+
+        <div class="callout">
+            <strong>The rail result is a substantive finding, not a modelling gap.</strong> North America's intercity distance structure means rail is not an available mitigation lever for this tournament. The interventions that do work (routing and scheduling) are things the organiser controls directly.
+        </div>
+
+        <p>One further controllable variable: stadium electricity demand. The model ranks host cities by grid carbon intensity. Vancouver runs at about 13 gCO₂/kWh (predominantly hydroelectric). Seattle sits near 94. Kansas City is around 512. The Texas and Florida venues are in the 400s. The cleanest and dirtiest venues differ by roughly 40 times per kilowatt-hour. Which venues host the most energy-intensive fixtures (finals, semifinals, the highest-attended matches) is a scheduling decision the organiser makes before kick-off.</p>
+
+        <h2>The gap between a stated target and a measured one</h2>
+
+        <p>FIFA has not submitted its 2030 or 2040 climate targets to an independent validator such as the Science Based Targets initiative. The mitigation levers that work in this tournament reduce a 6.78t baseline to around 4.82t at best, still well above the per-fan level consistent with the net-zero trajectory. Closing the remaining gap within the tournament's geography would rely heavily on carbon offsets, which is the mechanism that drew criticism at Qatar and that the Swiss Fairness Commission ruled was used to support an unsubstantiated claim.</p>
+
+        <p>The model can't resolve what FIFA should do. What it can do is make the numbers specific: a 3.4× accounting gap is a measured quantity, not an allegation. A 6.9 Mt fan footprint against a 1.8 Mt interim target is a ratio anyone can read. The levers that close the gap and the ones that don't are now distinguishable.</p>
+
+        <p>There is a difference between a target set in a press release and a target that survives contact with the geography it applies to. The 2026 format makes that difference visible.</p>
+
+        <p>The model and full methodology are on <a href="https://github.com/dpk-rdy/footprint26" target="_blank" style="color:var(--accent);">GitHub</a>.</p>
+
+    </div>
+
+    <div class="article-footer-bar">
+        <p class="footer-author">
+            Deepak Reddy is an MSBA graduate from Carnegie Mellon's Tepper School.
+            Connect on <a href="https://www.linkedin.com/in/dpkrdy" target="_blank">LinkedIn</a>.
+        </p>
+        <a href="index.html#articles" class="btn-back">← Back to Portfolio</a>
+    </div>
+
+</div>
+
+</body>
+</html>
