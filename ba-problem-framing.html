@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Projects Don't Fail on the Model. They Fail on the Question. — Deepak Reddy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0ede6;
+            --text: #1c1814;
+            --text-2: #6b6458;
+            --text-3: #a09890;
+            --accent: #0d7a70;
+            --accent-mid: #0d9488;
+            --accent-light: #d0f0eb;
+            --border: #ddd9d0;
+            --font: 'Outfit', -apple-system, sans-serif;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: var(--font); line-height: 1.7; }
+
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100; height: 52px;
+            display: flex; align-items: center; padding: 0 40px;
+            background: rgba(240,237,230,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-back {
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--text-2);
+            font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--accent); }
+        .nav-back svg { width: 14px; height: 14px; }
+        .nav-title { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--text-3); letter-spacing: 0.06em; text-transform: uppercase; }
+
+        .article-wrap { max-width: 680px; margin: 0 auto; padding: 120px 40px 100px; }
+
+        .article-cat { font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 20px; }
+
+        h1 { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.15; color: var(--text); margin-bottom: 20px; }
+
+        .article-lede { font-size: 18px; line-height: 1.65; color: var(--text-2); margin-bottom: 28px; }
+
+        .article-byline {
+            display: flex; align-items: center; gap: 12px;
+            padding: 20px 0; border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border); margin-bottom: 52px;
+        }
+        .byline-name { font-size: 13.5px; font-weight: 600; color: var(--text); }
+        .byline-meta { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+
+        .article-body p { font-size: 17px; line-height: 1.78; color: var(--text); margin-bottom: 28px; }
+
+        .article-body h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text); margin: 52px 0 20px; line-height: 1.3; }
+
+        .article-body .pull-quote { border-left: 3px solid var(--accent-mid); padding: 4px 0 4px 24px; margin: 40px 0; }
+        .article-body .pull-quote p { font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.45; color: var(--text); margin-bottom: 0; font-style: italic; }
+
+        .stat-row {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: var(--border);
+            border: 1px solid var(--border); margin: 36px 0;
+        }
+        .stat-cell { background: #faf8f4; padding: 20px; }
+        .stat-cell .num { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--accent); line-height: 1.1; }
+        .stat-cell .label { font-size: 11.5px; color: var(--text-3); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.4; }
+
+        .callout {
+            border: 1px solid var(--border); background: #faf8f4;
+            padding: 20px 24px; margin: 36px 0;
+            font-size: 14.5px; line-height: 1.65; color: var(--text-2);
+        }
+        .callout strong { color: var(--text); font-weight: 600; }
+
+        .article-footer-bar {
+            margin-top: 72px; padding-top: 32px; border-top: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+        }
+        .footer-author { font-size: 13px; color: var(--text-2); }
+        .footer-author a { color: var(--accent); text-decoration: none; }
+        .footer-author a:hover { text-decoration: underline; }
+        .btn-back { font-size: 12.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 10px 20px; transition: background 0.2s, color 0.2s; }
+        .btn-back:hover { background: var(--accent); color: #fff; }
+
+        @media (max-width: 600px) {
+            .article-wrap { padding: 100px 24px 80px; }
+            nav { padding: 0 24px; }
+            .nav-title { display: none; }
+            .stat-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" onclick="if(document.referrer){history.back();return false;}" class="nav-back">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 2L4 7l5 5"/></svg>
+        Deepak Reddy
+    </a>
+    <span class="nav-title">Business Analysis</span>
+</nav>
+
+<div class="article-wrap">
+
+    <div class="article-cat">Business Analysis</div>
+
+    <h1>Analytics Projects Don't Fail on the Model. They Fail on the Question.</h1>
+
+    <p class="article-lede">
+        Gartner found that only 48% of digital initiatives meet their business outcome targets. The failure isn't hiding in the data quality or the algorithm. Most of the time it's in the problem statement that nobody properly checked.
+    </p>
+
+    <div class="article-byline">
+        <div>
+            <div class="byline-name">Deepak Reddy</div>
+            <div class="byline-meta">MSBA, Carnegie Mellon &nbsp;·&nbsp; July 2026 &nbsp;·&nbsp; 6 min read</div>
+        </div>
+    </div>
+
+    <div class="article-body">
+
+        <p>A retail chain notices a drop in repeat purchases. The business asks: why are customers churning? An analyst spends six weeks building a churn prediction model: segmenting customers by behavior, identifying drivers, scoring likelihood to leave. The model is accurate. The recommendations are specific. The presentation is clean. Three months later, repeat purchases are still declining, because the actual problem was that delivery windows had stretched from two days to five after a logistics change. Customers weren't churning. They were waiting longer between orders. The model answered the wrong question with precision.</p>
+
+        <p>This kind of failure is more common than the headline numbers suggest. Gartner's 2024 survey of over 3,100 CIOs found that only 48% of digital initiatives meet or exceed their business outcome targets. Broader research puts the analytics and big data project failure rate between 70% and 85%. The postmortems usually cite data quality issues, poor stakeholder adoption, or misaligned expectations. Those are real. But underneath most of them is a simpler failure: the analyst built a rigorous answer to the wrong question, because they accepted the stated request as the actual problem.</p>
+
+        <h2>The symptom and the problem are not the same thing</h2>
+
+        <p>When a stakeholder comes to an analyst, they usually describe a symptom. Revenue is down. Customer satisfaction scores are slipping. A process is taking too long. These feel like problem statements, and in a busy organization with deadlines and dashboards to update, they get treated as such. The analyst scopes the work around the symptom, builds a model or report, and delivers findings that are technically correct and practically useless.</p>
+
+        <div class="stat-row">
+            <div class="stat-cell"><div class="num">48%</div><div class="label">of digital initiatives meet their business outcome targets (Gartner, 2024 survey of 3,100+ CIOs)</div></div>
+            <div class="stat-cell"><div class="num">85%</div><div class="label">of big data and analytics projects fail to deliver positive ROI</div></div>
+            <div class="stat-cell"><div class="num">60%</div><div class="label">of AI projects will be abandoned by 2026 due to inadequate problem definition, per Gartner</div></div>
+        </div>
+
+        <p>The gap between symptom and root cause is where business analysts lose most of their leverage. A stakeholder saying "we need a churn model" has already done their own diagnosis and skipped past the step where the diagnosis gets checked. Accepting that framing means inheriting whatever assumptions sat behind it, including the ones that are wrong.</p>
+
+        <p>The IIBA describes problem identification as the foundational skill in business analysis, before elicitation, before modeling, before any technical work. But in practice it's the step most likely to be compressed. Organizations are under pressure to show progress, stakeholders want to see work begin, and asking "are we solving the right problem?" reads as delay rather than diligence.</p>
+
+        <h2>What bad framing looks like in the data</h2>
+
+        <p>There are a few patterns that show up repeatedly when projects get the problem wrong.</p>
+
+        <p>The first is confusing a metric decline with a causal problem. A drop in NPS, a rise in ticket volume, a fall in conversion rate: these are measurements of outcomes, not diagnoses. They tell you something changed; they don't tell you what. When the problem statement is written as "fix the NPS score" rather than "understand what's driving NPS decline in the enterprise segment," the scope of work gets anchored to the metric rather than the mechanism. The analyst ends up optimizing a number instead of changing what produces it.</p>
+
+        <p>The second pattern is solution-first framing. "We need a dashboard showing regional sales by rep" is a solution. "We need to understand why three regions are below target while the others aren't" is a problem. When stakeholders bring solutions, the analyst's first move should be to reconstruct the problem that generated the solution request. If the stakeholder can't articulate it, that gap is worth investigating before the build starts.</p>
+
+        <div class="pull-quote">
+            <p>Getting the framing wrong means you can spend weeks building a model that's technically accurate and practically answers a question nobody was asking.</p>
+        </div>
+
+        <p>The third pattern is scope collapse under pressure. Early in a project the problem statement is broad and diagnostic. Then a deadline appears, or a senior stakeholder wants a quick win, and the scope narrows to whatever is fastest to deliver. The analysis ships on time and addresses a small, defined question, while the actual business problem that prompted the work stays unsolved. The project counts as complete. The outcome doesn't improve.</p>
+
+        <h2>A practical check before the work begins</h2>
+
+        <p>The most useful tool I've found for catching bad framing before it costs six weeks is a simple decomposition: write the problem statement and the assumed root cause separately, then test whether the root cause actually explains the symptom, and whether the proposed analysis would change the root cause if it turned out to be true.</p>
+
+        <p>If a stakeholder says sales are down in Q2, the problem statement is the revenue decline. The assumed root cause might be poor pipeline conversion, or seasonal effects, or competitive pricing pressure, or rep attrition. Each of those implies a different analysis and a different action. A model that improves pipeline scoring does nothing if the real cause is rep attrition. Mapping that logic explicitly before scoping the work is ten minutes that saves six weeks.</p>
+
+        <p>The Five Whys technique, borrowed from manufacturing quality management, applies here: ask why the stated problem exists, then ask why that cause exists, and repeat. Most business problems that present as data questions resolve into process or incentive questions by the fourth or fifth iteration. That's useful information to have before building a dashboard.</p>
+
+        <div class="callout">
+            <strong>A test to run on every problem statement:</strong> if the analysis comes back confirming the assumed root cause, what decision changes? If the answer is "we'd do X," check that X is actually within the organization's ability and willingness to act on. If the answer is unclear, the problem statement isn't specific enough to be worth analyzing yet.
+        </div>
+
+        <h2>Why this matters more now than it did five years ago</h2>
+
+        <p>The problem framing failure has always existed, but the stakes are higher now for two reasons.</p>
+
+        <p>First, the speed at which AI tools generate plausible-looking output has compressed the time between problem statement and analysis. A generative AI tool can produce a market analysis, a segmentation, or a competitive landscape in minutes. The output looks finished. The underlying question it's answering may never have been validated. The failure mode of solving the wrong problem quickly is worse than solving it slowly, because the speed makes it harder to catch.</p>
+
+        <p>Second, organizations are making larger bets on analytics infrastructure. The same Gartner research found that 63% of organizations either don't have or are unsure whether they have the right data management practices for AI. Companies are investing in data platforms, ML pipelines, and analytical tooling before they've established the discipline of defining what questions those tools should answer. Gartner projects that through 2026, 60% of AI projects will be abandoned, with inadequate problem definition consistently cited as a leading cause.</p>
+
+        <p>The job description of a business analyst in 2026 asks for more technical depth than it did ten years ago: SQL, Python familiarity, model interpretation, prompt engineering for AI tools. Those skills matter. But the most expensive mistakes on analytics teams right now aren't happening because someone can't write a query. They're happening because nobody in the room asked whether the query was the right one to write.</p>
+
+        <h2>The framing skill is learnable</h2>
+
+        <p>Business analysis training tends to spend more time on elicitation techniques (interviews, workshops, prototypes) than on problem diagnosis. Those skills are downstream of a good problem statement. Getting better at framing means practicing the habit of separating what the stakeholder said from what they meant, and separating what they meant from what the data can actually address.</p>
+
+        <p>In my own work on the Maersk capstone, the problem we were handed sounded like a segmentation question. It turned out to be a margin structure question. The depots that looked like obvious investment targets by revenue were some of the lowest-margin sites in the network. Had we optimized for revenue without first understanding the margin structure, we'd have built a precise answer to the wrong frame. The month we spent diagnosing before modeling was the most valuable month of the project.</p>
+
+        <p>Most analytics failures are recoverable if you catch the framing error early. Once six weeks of work sits in a deck, it becomes politically difficult to say the question was wrong. The time to surface that is in the first conversation, not the last one.</p>
+
+    </div>
+
+    <div class="article-footer-bar">
+        <p class="footer-author">
+            Deepak Reddy is an MSBA graduate from Carnegie Mellon's Tepper School.
+            Connect on <a href="https://www.linkedin.com/in/dpkrdy" target="_blank">LinkedIn</a>.
+        </p>
+        <a href="index.html#articles" class="btn-back">← Back to Portfolio</a>
+    </div>
+
+</div>
+
+</body>
+</html>
